@@ -2,8 +2,10 @@ package edu.psu.pawsrus.service;
 
 import edu.psu.pawsrus.model.Pet;
 import edu.psu.pawsrus.repository.PetRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -25,7 +27,10 @@ public class PetServiceImpl implements PetService{
 
     @Override
     public List<Pet> getFilteredPets(String search) {
-        return null;
+        if(!StringUtils.hasText(search)){
+            throw new IllegalArgumentException("search required");
+        }
+        return petRepository.getFilteredPets(search);
     }
 
     @Override

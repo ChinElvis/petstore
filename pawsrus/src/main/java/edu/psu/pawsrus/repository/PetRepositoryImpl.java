@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class PetRepositoryImpl implements PetRepository{
@@ -34,12 +35,15 @@ public class PetRepositoryImpl implements PetRepository{
 
     @Override
     public List<Pet> getFilteredPets(String search) {
-        return null;
+
+        return petList.stream()
+                .filter(w -> w.name().toLowerCase().contains(search.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deletePet(Long petId) {
-
+        petList = petList.stream().filter(p ->!Objects.equals(p.id(), petId)).collect(Collectors.toList());
     }
 
     @Override

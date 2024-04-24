@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{'/css/main.css'}">
+    <link rel="stylesheet">
     <title>Pet Store</title>
 </head>
 <body>
     <th:block th:fragment="header">
         <header>
             <h1 class>Paws R Us</h1>
-            <p>We are your local adoption center!</p>
+            <p>We are your local pet adoption center!</p>
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Navbar</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -28,6 +28,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/about">About Us</a>
+                            </li>
+                            <li>
+                                <a sec:authorize="isAuthenticated()" class="nav-link" href="/add-pet">Add Pet</a>
+                            </li>
+                            <li>
+                                <a sec:authorize="isAnonymous()" class="nav-link" href="/login">Admin Login</a>
+
                             </li>
                         </ul>
                     </div>
@@ -50,12 +57,11 @@
             <th>Age</th>
         </tr>
         </thead>
-        <input type="text" name="username" placeholder="Enter your username">
         <tbody>
 
         <tr th:if="${pets}" th:each="pet : ${pets}">
-            <td></td>
-            <td></td>
+            <td><a th:href="@{'/edit-pet/' + ${pet.id()}}" sec:authorize="isAuthenticated()" type="button" class="btn btn-light">Edit</a></td>
+            <td><a th:href="@{'/delete-pet/' + ${pet.id()}}" sec:authorize="isAuthenticated()" type="button" class="btn btn-danger">Delete</a></td>
             <td th:text="${pet.id()}"></td>
             <td th:text="${pet.name()}"></td>
             <td th:text="${pet.type()}"></td>
@@ -63,7 +69,7 @@
             <td th:text="${pet.age()}"></td>
         </tr>
         <tr th:if="${pets.size() eq 0}">
-            <td colspan="6">No pets up for adoption :(</td>
+            <td colspan="6">No pets up for adoption!! :)</td>
         </tr>
 
         </tbody>
@@ -74,6 +80,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+
+    <th:block th:fragment="footer">
+        <footer>
+            <cite>&copy; 2023 PawsRUs</cite>
+        </footer>
+    </th:block>
 
 </body>
 </html>
